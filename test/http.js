@@ -60,20 +60,21 @@ describe("HTTP Tests", () => {
 
     it("should read data from a http request as expected", (done) => {
         co(function* () {
-            let timer = setTimeout(() => {
-                done(new Error("HTTP request timeout after 1000 ms"));
-            }, 1500);
-            let req = http.request("http://localhost:12345/test-req", {
-                method: "POST"
-            }, res => {
-                clearTimeout(timer);
-
+            let req = http.request({
+                port: 12345,
+                path: "/test-req",
+                method: "POST",
+                timeout: 1000
+            }, () => {
                 try {
                     assert.deepStrictEqual(_input, data);
                     done();
                 } catch (err) {
                     done(err);
                 }
+            }).on("timeout", () => {
+                req.abort();
+                done(new Error("HTTP request timeout after 1000 ms"));
             });
 
             for (let msg of data) {
