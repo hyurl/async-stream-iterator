@@ -109,7 +109,7 @@ class AsyncStreamIterator {
             if (event[0] === "#") {
                 this.source[event.slice(1)] = null;
             } else {
-                this.source.off(event, this.events[event]);
+                this.source.removeListener(event, this.events[event]);
             }
 
             delete this.events[event];
