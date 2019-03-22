@@ -1,6 +1,6 @@
 {
   "name": "async-stream-iterator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert any readable stream to an async iterator and promise-like.",
   "main": "index.js",
   "types": "index.d.ts",

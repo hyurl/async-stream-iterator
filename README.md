@@ -14,7 +14,7 @@ class AsyncStreamIterator<T = Buffer> implements AsyncIterableIterator<T> {
     next(): Promise<IteratorResult<T>>;
     /** Explicitly stops the iterator. */
     stop(): void;
-    then(onfulfilled?: Function, onrejected?: Function): ReturnType<this["next"]>;
+    then(onfulfilled?: (data: any) => any, onrejected?: (err: any) => any): ReturnType<this["next"]>;
     [Symbol.asyncIterator](): this;
 }
 
