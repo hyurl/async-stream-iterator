@@ -142,7 +142,7 @@ var ws = SocketIO(8000).on("connection", socket => {
             // TODO...
         }
 
-        // NOTE: AsyncStreamIterator only supports one argument of passed to the
+        // NOTE: AsyncStreamIterator only supports one argument passed to the
         // corresponding data event.
     })();
 });
