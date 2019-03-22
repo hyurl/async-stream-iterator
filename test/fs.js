@@ -13,6 +13,15 @@ describe("File System Tests", () => {
         let count = 0;
 
         co(function* () {
+            assert.deepStrictEqual(Object.keys(iterator.events), [
+                "data",
+                "error",
+                "end"
+            ]);
+
+            let dataHandler = iterator.events.data;
+            let errorHandler = iterator.events.error;
+            let endHandler = iterator.events.end;
             let data = Buffer.from([]);
             let value, done;
 
@@ -27,6 +36,10 @@ describe("File System Tests", () => {
 
             assert.strictEqual(count, 3);
             assert.strictEqual(data.byteLength, stat.size);
+            assert.deepStrictEqual(iterator.events, {});
+            assert.ok(!stream.listeners("data").includes(dataHandler));
+            assert.ok(!stream.listeners("error").includes(errorHandler));
+            assert.ok(!stream.listeners("end").includes(endHandler));
         }).then(done).catch(done);
     });
 

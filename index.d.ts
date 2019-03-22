@@ -26,6 +26,7 @@ export class AsyncStreamIterator<T = Buffer> implements AsyncIterableIterator<T>
     protected chunks: T[];
     protected error: any;
     protected preprocessors: AsyncStreamIterator.Options["preprocessors"];
+    protected events: { [x: string]: Function };
 
     constructor(source: any, options?: AsyncStreamIterator.Options<T>);
     /** Fetches the next chunk of data from the stream. */
@@ -35,6 +36,7 @@ export class AsyncStreamIterator<T = Buffer> implements AsyncIterableIterator<T>
     then(onfulfilled?: (data: any) => any, onrejected?: (err: any) => any): ReturnType<this["next"]>;
     [Symbol.asyncIterator](): this;
     protected attachEventHandler(event: string, handler: Function): void;
+    protected detachEventHandlers(): void;
     protected handleDataEvent(msg: any): void;
     protected handleErrorEvent(err: any): void;
     protected handleEndEvent(): void;

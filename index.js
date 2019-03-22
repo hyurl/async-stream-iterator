@@ -35,6 +35,7 @@ class AsyncStreamIterator {
         this.chunks = [];
         this.error = null;
         this.preprocessors = preprocessors;
+        this.events = {};
 
         if (events.data || (events.data = "data")) {
             this.attachEventHandler(events.data, this.handleDataEvent);
@@ -75,25 +76,43 @@ class AsyncStreamIterator {
 
     /** Explicitly stops the iterator. */
     stop() {
-        this.status = "closed";
-        this.preprocessors.onEnd && this.preprocessors.onEnd();
+        if (this.status === "suspended") {
+            this.status = "closed";
+            this.detachEventHandlers();
+            this.preprocessors.onEnd && this.preprocessors.onEnd();
 
-        if (this.tasks.length > 0) {
-            let task;
+            if (this.tasks.length > 0) {
+                let task;
 
-            // Resolve all waiting tasks with void value.
-            while (task = this.tasks.shift()) {
-                task.resolve({ value: undefined, done: true });
+                // Resolve all waiting tasks with void value.
+                while (task = this.tasks.shift()) {
+                    task.resolve({ value: undefined, done: true });
+                }
             }
         }
     }
 
     /** @protected */
     attachEventHandler(event, handler) {
+        this.events[event] = handler = handler.bind(this);
+
         if (event[0] === "#") {
-            this.source[event.slice(1)] = handler.bind(this);
+            this.source[event.slice(1)] = handler;
         } else if (typeof this.source.on === "function") {
-            this.source.on(event, handler.bind(this));
+            this.source.on(event, handler);
+        }
+    }
+
+    /** @protected */
+    detachEventHandlers() {
+        for (let event in this.events) {
+            if (event[0] === "#") {
+                this.source[event.slice(1)] = null;
+            } else {
+                this.source.off(event, this.events[event]);
+            }
+
+            delete this.events[event];
         }
     }
 

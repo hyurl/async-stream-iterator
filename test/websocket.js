@@ -57,6 +57,9 @@ describe("WebSocket Tests", () => {
 
             assert.strictEqual(count, 4);
             assert.deepStrictEqual(_data, data);
+            assert.ok(!ws.onmessage);
+            assert.ok(!ws.onerror);
+            assert.ok(!ws.onclose);
         }).then(() => {
             done();
             server.close();
