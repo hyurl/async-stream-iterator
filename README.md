@@ -47,7 +47,7 @@ var server = http.createServer(async (req, res) => {
     
     for await (let chunk of new AsyncStreamIterator(req)) {
         // Instead of converting the data here, you can pass the options
-        // `preprocessor.onData` a function to do so.
+        // `preprocessors.onData` a function to do so.
         data += String(chunk);
     }
 
@@ -81,7 +81,7 @@ var iterator = new AsyncStreamIterator(ws, {
         error: "#onerror",
         end: "#onclose"
     },
-    preprocessor: {
+    preprocessors: {
         onData: (event) => event.data
     }
 });
@@ -104,7 +104,7 @@ var iterator = new AsyncStreamIterator(ws, {
         data: "#onmessage",
         error: "#onerror"
     },
-    preprocessor: {
+    preprocessors: {
         onData: (event) => event.data,
         onEnd: () => es.close()
     }
@@ -115,7 +115,7 @@ var iterator = new AsyncStreamIterator(ws, {
         // TODO...
 
         if (/* goes well */) {
-            // Explicitly close the iterator and `preprocessor.onEnd` is bound
+            // Explicitly close the iterator and `preprocessors.onEnd` is bound
             // to close the EventSource instance, the request will be closed as
             // well.
             iterator.close();
@@ -163,7 +163,7 @@ import AsyncStreamIterator from "async-stream-iterator";
 var server = http.createServer(async (req, res) => {
     let data = "";
     let iterator = new AsyncStreamIterator(req, {
-        preprocessor: {
+        preprocessors: {
             onData: (buf) => buf.toString()
         }
     });
