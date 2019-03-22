@@ -2,7 +2,8 @@
   "name": "async-stream-iterator",
   "version": "1.0.0",
   "description": "Convert any readable stream to an async iterator and promise-like.",
-  "main": "dist/index.js",
+  "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "mocha"
   },
@@ -14,8 +15,7 @@
     "async",
     "iterator",
     "await",
-    "promise",
-    "thenable"
+    "AsyncIterableIterator"
   ],
   "author": "Ayon Lee <i@hyurl.com>",
   "license": "MIT",
@@ -23,7 +23,14 @@
     "url": "https://github.com/hyurl/async-stream-iterator/issues"
   },
   "homepage": "https://github.com/hyurl/async-stream-iterator#readme",
-  "dependencies": {
-    "tslib": "^1.9.3"
+  "devDependencies": {
+    "@types/node": "^11.11.5",
+    "bsp": "^0.2.1",
+    "co": "^4.6.0",
+    "eventsource": "^1.0.7",
+    "mocha": "^6.0.2",
+    "sfn-sse": "^0.3.3",
+    "sleep-promise": "^8.0.1",
+    "websocket": "^1.0.28"
   }
 }
