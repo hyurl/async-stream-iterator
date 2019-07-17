@@ -1,6 +1,6 @@
 {
   "name": "async-stream-iterator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Convert any readable stream to an async iterator and promise-like.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -28,7 +28,7 @@
     "bsp": "^0.2.1",
     "co": "^4.6.0",
     "eventsource": "^1.0.7",
-    "mocha": "^6.0.2",
+    "mocha": "^6.1.4",
     "sfn-sse": "^0.3.3",
     "sleep-promise": "^8.0.1",
     "websocket": "^1.0.28"
